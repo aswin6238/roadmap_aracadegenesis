@@ -35,7 +35,8 @@
     background: var(--bg);
     color: var(--text);
     font-family: var(--body);
-    line-height: 1.6;
+    font-size: 16px;
+    line-height: 1.65;
     -webkit-font-smoothing: antialiased;
   }
   a{ color: var(--cyan); }
@@ -67,58 +68,41 @@
   }
 
   /* ---------- top bar ---------- */
-  .topbar{
+  .site-header{
     position: sticky; top:0; z-index: 300;
-    display:flex; align-items:center; gap:14px;
+    background: var(--bg);
+  }
+  .topbar{
+    display:flex; align-items:center; gap:12px; flex-wrap: wrap;
     padding: 10px 16px;
-    background: rgba(10,12,16,0.92);
+    background: rgba(10,12,16,0.95);
     backdrop-filter: blur(6px);
     border-bottom: 1px solid var(--border);
   }
-  .menu-btn{
-    display:none;
-    background: var(--bg-raised); border:1px solid var(--border);
-    color: var(--amber); font-family: var(--pixel); font-size: 10px;
-    padding: 8px 10px; border-radius: var(--radius); cursor:pointer;
-  }
   .brand-mini{
-    font-family: var(--pixel); font-size: 11px; color: var(--amber);
+    font-family: var(--pixel); font-size: 12px; color: var(--amber);
     letter-spacing: 1px; white-space:nowrap;
   }
   .brand-mini span{ color: var(--cyan); }
-  .search-wrap{
-    flex:1; display:flex; align-items:center; gap:8px;
-    background: var(--bg-panel); border:1px solid var(--border); border-radius: var(--radius);
-    padding: 7px 10px; max-width: 420px;
-  }
-  .search-wrap input{
-    flex:1; background:transparent; border:none; outline:none;
-    color: var(--text); font-family: var(--mono); font-size: 13px;
-  }
-  .search-wrap input::placeholder{ color: var(--text-mute); }
-  .search-wrap .key{
-    font-family: var(--mono); font-size:10px; color: var(--text-mute);
-    border:1px solid var(--border); border-radius:3px; padding:1px 5px;
-  }
 
   .score-readout{
-    display:flex; align-items:center; gap:10px;
-    font-family: var(--mono); font-size: 12px; color: var(--text-dim);
+    display:flex; align-items:center; gap:8px; margin-left: auto;
+    font-family: var(--mono); font-size: 13px; color: var(--text-dim);
     white-space: nowrap;
   }
   .score-readout .digits{
-    font-family: var(--pixel); font-size: 13px; color: var(--green);
+    font-family: var(--pixel); font-size: 14px; color: var(--green);
     text-shadow: 0 0 6px rgba(57,255,136,0.55);
   }
   .toggle-scan{
     background: var(--bg-raised); border:1px solid var(--border);
-    color: var(--text-dim); font-family: var(--mono); font-size: 11px;
-    padding: 7px 10px; border-radius: var(--radius); cursor:pointer;
+    color: var(--text-dim); font-family: var(--mono); font-size: 12px;
+    padding: 8px 11px; border-radius: var(--radius); cursor:pointer;
+    flex-shrink: 0;
   }
   .toggle-scan.active{ color: var(--amber); border-color: var(--amber-dim); }
 
   .progress-track{
-    position: sticky; top: 49px; z-index: 290;
     height: 4px; width:100%; background: var(--border-soft);
   }
   .progress-fill{
@@ -128,54 +112,40 @@
     box-shadow: 0 0 8px rgba(76,212,224,.6);
   }
 
+  /* ---------- quick nav (replaces sidebar) ---------- */
+  .quicknav-wrap{
+    background: rgba(10,12,16,0.95);
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--border);
+  }
+  .quicknav{
+    display:flex; gap:8px; overflow-x:auto;
+    padding: 10px 16px; -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+  .quicknav::-webkit-scrollbar{ height:6px; }
+  .quicknav::-webkit-scrollbar-thumb{ background: var(--border); border-radius:4px; }
+  .qn-pill{
+    flex-shrink:0; display:flex; align-items:center; gap:7px;
+    background: var(--bg-panel); border:1px solid var(--border); color: var(--text-dim);
+    font-family: var(--mono); font-size: 13.5px; text-decoration:none;
+    padding: 7px 12px; border-radius: 20px; white-space:nowrap;
+    scroll-snap-align: start;
+  }
+  .qn-pill:hover{ color: var(--text); border-color: var(--text-mute); }
+  .qn-pill.active{ color: var(--amber); border-color: var(--amber-dim); background: var(--bg-raised); }
+  .qn-pill .done-dot{ width:6px; height:6px; border-radius:50%; background: var(--border); flex-shrink:0; }
+  .qn-pill .done-dot.lit{ background: var(--green); box-shadow: 0 0 5px var(--green); }
+  .qn-divider{
+    flex-shrink:0; align-self:center; width:1px; height:20px; background: var(--border); margin: 0 2px;
+  }
+
   /* ---------- layout ---------- */
-  .shell{ display:flex; max-width: 1400px; margin: 0 auto; }
-  .sidebar{
-    width: 300px; flex-shrink:0;
-    position: sticky; top: 53px;
-    height: calc(100vh - 53px);
-    overflow-y:auto;
-    border-right: 1px solid var(--border);
-    padding: 18px 10px 60px;
-    background: linear-gradient(180deg, var(--bg-panel), var(--bg));
-  }
-  .sidebar::-webkit-scrollbar{ width:8px; }
-  .sidebar::-webkit-scrollbar-thumb{ background: var(--border); border-radius: 4px; }
-
-  .sidebar h3.marquee-label{
-    font-family: var(--pixel); font-size: 9px; letter-spacing: 2px;
-    color: var(--text-mute); padding: 6px 10px 10px;
-    border-bottom: 1px dashed var(--border); margin: 4px 0 8px;
-  }
-  .nav-part{ margin-bottom: 6px; }
-  .nav-part-title{
-    font-family: var(--pixel); font-size: 9px; letter-spacing: 1.5px;
-    color: var(--magenta); padding: 10px 10px 6px;
-  }
-  .nav-level{
-    display:block; width:100%; text-align:left;
-    background:none; border:none; color: var(--text-dim);
-    font-family: var(--mono); font-size: 12.5px;
-    padding: 7px 10px 7px 16px; border-left: 2px solid transparent;
-    cursor:pointer; text-decoration:none; border-radius: 0 var(--radius) var(--radius) 0;
-    display:flex; justify-content:space-between; gap:6px; align-items:center;
-  }
-  .nav-level:hover{ background: var(--bg-raised); color: var(--text); }
-  .nav-level.active{ color: var(--amber); border-left-color: var(--amber); background: var(--bg-raised); }
-  .nav-level .chip{
-    font-size:10px; color: var(--text-mute); font-family: var(--mono);
-    border:1px solid var(--border); border-radius: 3px; padding: 0px 5px; flex-shrink:0;
-  }
-  .nav-level .done-dot{
-    width:7px; height:7px; border-radius:50%; background: var(--border); flex-shrink:0;
-  }
-  .nav-level .done-dot.lit{ background: var(--green); box-shadow: 0 0 5px var(--green); }
-
-  .main{ flex:1; min-width:0; padding: 0 0 100px; }
+  .main{ max-width: 880px; margin: 0 auto; padding: 0 clamp(16px, 4vw, 40px) 100px; }
 
   /* ---------- hero ---------- */
   .hero{
-    padding: 64px 40px 46px;
+    padding: 56px 0 40px;
     border-bottom: 1px solid var(--border);
     background:
       radial-gradient(ellipse at 20% -10%, rgba(255,182,39,0.10), transparent 55%),
@@ -218,7 +188,7 @@
     font-family: var(--pixel); font-size: 9px; color: var(--amber);
     white-space:nowrap; padding-top:2px;
   }
-  .rule-card p{ margin:0; font-size: 14.5px; color: var(--text); }
+  .rule-card p{ margin:0; font-size: 16px; color: var(--text); }
   .total-time{
     font-family: var(--mono); font-size: 13px; color: var(--text-dim);
     display:flex; align-items:center; gap:8px;
@@ -227,7 +197,7 @@
 
   /* ---------- section / level cards ---------- */
   .part-divider{
-    margin: 46px 40px 18px; padding-bottom: 10px;
+    margin: 40px 0 16px; padding-bottom: 10px;
     border-bottom: 2px solid var(--border);
     display:flex; align-items:baseline; gap: 14px;
   }
@@ -238,11 +208,11 @@
     font-family: var(--body); font-weight:700; font-size: 22px; margin:0; color: var(--text);
   }
   .part-intro{
-    margin: 0 40px 20px; color: var(--text-dim); font-size: 14.5px; max-width: 760px;
+    margin: 0 0 20px; color: var(--text-dim); font-size: 16px; max-width: 760px;
   }
 
   .level{
-    margin: 22px 40px; border: 1px solid var(--border);
+    margin: 20px 0; border: 1px solid var(--border);
     background: var(--bg-panel); border-radius: 6px; overflow:hidden;
     scroll-margin-top: 70px;
   }
@@ -270,7 +240,7 @@
   }
   .level-resources .r-label{ font-family: var(--mono); font-size:11px; color: var(--text-mute); letter-spacing:1px; margin-bottom:6px; text-transform:uppercase; }
   .level-resources ul{ margin: 0; padding-left: 18px; }
-  .level-resources li{ font-size: 13.5px; margin-bottom: 4px; color: var(--text-dim); }
+  .level-resources li{ font-size: 15px; margin-bottom: 4px; color: var(--text-dim); }
 
   /* stage = topic/module */
   .stage{
@@ -292,7 +262,7 @@
   .stage-title-wrap{ flex:1; min-width:0; }
   .stage-title-row{ display:flex; align-items:center; gap:10px; flex-wrap:wrap; }
   .stage-title-row h4{ margin:0; font-size:15.5px; font-weight:700; color: var(--text); }
-  .stage-day{ font-family: var(--mono); font-size:11.5px; color: var(--text-mute); }
+  .stage-day{ font-family: var(--mono); font-size: 12.5px; color: var(--text-mute); }
   .stage-caret{ font-family: var(--mono); color: var(--text-mute); transition: transform .2s ease; margin-left:auto; padding-left: 10px; }
   .stage.collapsed .stage-caret{ transform: rotate(-90deg); }
   .stage-body{ margin: 12px 0 0 32px; overflow:hidden; }
@@ -300,35 +270,35 @@
   .stage.done .stage-title-row h4{ color: var(--text-dim); text-decoration: line-through; text-decoration-color: var(--border); }
 
   .why{
-    font-size: 13.5px; color: var(--text-dim); margin: 0 0 12px;
+    font-size: 15px; color: var(--text-dim); margin: 0 0 12px;
     padding: 10px 12px; background: var(--bg-raised); border-left:3px solid var(--cyan); border-radius: 0 var(--radius) var(--radius) 0;
   }
   .why strong{ color: var(--cyan); }
 
   .resources{ margin: 0 0 12px; }
   .resources .r-label, .steps .r-label, .do-note .r-label{
-    font-family: var(--mono); font-size:10.5px; color: var(--text-mute); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px;
+    font-family: var(--mono); font-size: 11.5px; color: var(--text-mute); letter-spacing:1.2px; text-transform:uppercase; margin-bottom:6px;
   }
   .resources ul{ margin:0; padding-left:18px; }
-  .resources li{ font-size: 13.5px; margin-bottom:4px; color: var(--text-dim); }
+  .resources li{ font-size: 15px; margin-bottom:4px; color: var(--text-dim); }
   .resources li a{ color: var(--cyan); text-decoration: none; border-bottom: 1px dotted rgba(76,212,224,0.4); }
   .resources li a:hover{ color: var(--amber); border-bottom-color: var(--amber); }
   .resources li .note{ color: var(--text-mute); }
 
   .do-note{
-    font-size: 13.5px; color: var(--text-dim); margin: 0 0 12px;
+    font-size: 15px; color: var(--text-dim); margin: 0 0 12px;
   }
   .do-note p{ margin: 4px 0; }
 
   .steps{ margin: 0 0 12px; }
   .steps ol, .steps ul.plain{ margin: 6px 0 0; padding-left: 20px; }
-  .steps li{ font-size: 13.5px; color: var(--text-dim); margin-bottom: 8px; }
+  .steps li{ font-size: 15px; color: var(--text-dim); margin-bottom: 8px; }
   .steps li strong{ color: var(--text); }
   .steps li code{ color: var(--amber); }
 
   .mini-project, .checkpoint, .reference-note{
     border-radius: var(--radius); padding: 12px 14px; margin: 10px 0;
-    font-size: 13.5px; color: var(--text);
+    font-size: 15px; color: var(--text);
   }
   .mini-project{ background: rgba(57,255,136,0.06); border:1px solid rgba(57,255,136,0.28); border-left: 3px solid var(--green); }
   .mini-project .flag{ font-family: var(--mono); font-size:11px; color: var(--green); letter-spacing:1px; display:block; margin-bottom:5px; }
@@ -344,38 +314,38 @@
   pre.code-block{
     background: #0d0f14; border:1px solid var(--border); border-radius: var(--radius);
     padding: 14px 16px; overflow-x:auto; margin: 8px 0 12px;
-    font-family: var(--mono); font-size: 12.5px; color: #c9d6e3; line-height:1.55;
+    font-family: var(--mono); font-size: 13.5px; color: #c9d6e3; line-height:1.65;
   }
   pre.code-block code{ background:none; padding:0; color: inherit; }
 
-  .stage-intro{ font-size: 13.5px; color: var(--text-dim); margin: 0 0 12px; }
+  .stage-intro{ font-size: 15px; color: var(--text-dim); margin: 0 0 12px; }
   .stage-intro strong{ color: var(--text); }
 
   .why-cant-skip{
-    font-size: 13.5px; color: var(--text-dim); margin: 0 0 12px;
+    font-size: 15px; color: var(--text-dim); margin: 0 0 12px;
     padding: 10px 12px; background: var(--bg-raised); border-left:3px solid var(--amber); border-radius: 0 var(--radius) var(--radius) 0;
   }
   .why-cant-skip strong{ color: var(--amber); }
 
   /* ongoing threads + closing */
-  .threads{ margin: 22px 40px; }
+  .threads{ margin: 20px 0; }
   .thread-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 14px; }
   .thread-card{
     background: var(--bg-panel); border:1px solid var(--border); border-radius:6px; padding:16px 18px;
   }
-  .thread-card h5{ margin:0 0 8px; font-family: var(--pixel); font-size:10.5px; color: var(--cyan); }
-  .thread-card p{ margin:0; font-size:13.5px; color: var(--text-dim); }
+  .thread-card h5{ margin:0 0 8px; font-family: var(--pixel); font-size: 11.5px; color: var(--cyan); }
+  .thread-card p{ margin:0; font-size: 15px; color: var(--text-dim); }
   .thread-card a{ color: var(--amber); }
 
   .closing{
-    margin: 40px 40px 10px; padding: 20px 22px; border-top: 1px dashed var(--border);
+    margin: 36px 0 10px; padding: 20px 0 0; border-top: 1px dashed var(--border);
   }
   .closing p{
-    font-style: italic; color: var(--text-mute); font-size: 13.5px; max-width: 820px; margin:0;
+    font-style: italic; color: var(--text-mute); font-size: 15px; max-width: 820px; margin:0;
   }
 
   .footer-cta{
-    margin: 0 40px 60px; text-align:center; padding: 30px 20px;
+    margin: 0 0 60px; text-align:center; padding: 30px 20px;
     border: 1px dashed var(--border); border-radius: 8px; color: var(--text-mute);
     font-family: var(--mono); font-size: 12px;
   }
@@ -385,23 +355,41 @@
   }
   @keyframes blink{ 50%{ opacity: 0.15; } }
 
-  .no-results{ display:none; margin: 40px; text-align:center; color: var(--text-mute); font-family: var(--mono); }
-  body.filtering .no-results.show{ display:block; }
 
-  /* mobile */
-  @media (max-width: 900px){
-    .menu-btn{ display:inline-block; }
-    .sidebar{
-      position: fixed; left:0; top:53px; bottom:0; z-index: 250;
-      transform: translateX(-105%); transition: transform .25s ease;
-      width: 82%; max-width: 320px; box-shadow: 8px 0 30px rgba(0,0,0,0.5);
-    }
-    body.nav-open .sidebar{ transform: translateX(0); }
-    .brand-mini{ font-size:9px; }
-    .hero{ padding: 40px 20px 30px; }
-    .part-divider, .part-intro, .level, .threads, .closing, .footer-cta{ margin-left: 16px; margin-right: 16px; }
-    .stage-body{ margin-left: 20px; }
+  /* ---------- responsive ---------- */
+  @media (max-width: 700px){
+    .topbar{ gap:10px; padding: 9px 12px; }
     .score-readout span.label{ display:none; }
+    .toggle-scan{ font-size: 0; padding: 8px; width: 34px; height:34px; display:flex; align-items:center; justify-content:center; }
+    .toggle-scan::before{ content:"📺"; font-size:15px; }
+    .quicknav{ padding: 9px 12px; gap:6px; }
+    .qn-pill{ font-size: 12px; padding: 6px 10px; }
+
+    .hero{ padding: 36px 0 28px; }
+    .hero-eyebrow{ font-size: 11px; letter-spacing: 2px; }
+    .hero .subtitle{ font-size: 15.5px; }
+    .rule-card{ flex-direction: column; gap: 8px; padding: 14px; }
+    .rule-card .tag{ white-space:normal; }
+
+    .part-divider{ flex-wrap: wrap; }
+    .part-divider h2{ font-size: 19px; }
+
+    .level-header{ padding: 14px 16px; gap:10px; }
+    .level-header h3{ font-size: 16.5px; }
+    .level-time{ font-size: 11.5px; }
+
+    .stage{ padding: 13px 16px 18px; }
+    .stage-title-row h4{ font-size: 15px; }
+    .stage-body{ margin: 12px 0 0 0; }
+    .stage-header .check{ width:22px; height:22px; }
+
+    .thread-grid{ grid-template-columns: 1fr; }
+    pre.code-block{ font-size: 12px; padding: 12px; }
+  }
+
+  @media (max-width: 420px){
+    .brand-mini{ font-size: 10px; }
+    .hero h1{ font-size: clamp(18px, 6vw, 24px); line-height: 1.6; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -416,55 +404,39 @@
 <div class="scanlines" aria-hidden="true"></div>
 <div class="vignette" aria-hidden="true"></div>
 
-<div class="topbar">
-  <button class="menu-btn" id="menuBtn" aria-label="Toggle level select menu">☰ MAP</button>
-  <div class="brand-mini">ARCADE<span>GENESIS</span></div>
-  <div class="search-wrap">
-    <span aria-hidden="true">🔍</span>
-    <input id="searchInput" type="text" placeholder="Search topics, resources, projects…" aria-label="Search roadmap">
-    <span class="key">/</span>
-  </div>
-  <div class="score-readout">
-    <span class="label">CLEARED</span>
-    <span class="digits" id="scoreDigits">000</span>
-    <span class="label">/ <span id="scoreTotal">000</span></span>
-  </div>
-  <button class="toggle-scan active" id="scanToggle" title="Toggle CRT scanline effect">CRT: ON</button>
-</div>
-<div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
-
-<div class="shell">
-
-  <nav class="sidebar" id="sidebar" aria-label="Level select">
-    <h3 class="marquee-label">◆ LEVEL SELECT ◆</h3>
-
-    <div class="nav-part">
-      <div class="nav-part-title">PART 1 — FOUNDATIONS</div>
-      <a class="nav-level" data-target="phase0a" href="#phase0a"><span>Phase 0A · Python</span><span class="chip">2.5wk</span></a>
-      <a class="nav-level" data-target="phase0b" href="#phase0b"><span>Phase 0B · JavaScript</span><span class="chip">2.5wk</span></a>
-      <a class="nav-level" data-target="phase1" href="#phase1"><span>Phase 1 · Git &amp; Tooling</span><span class="chip">4d</span></a>
-      <a class="nav-level" data-target="phase2" href="#phase2"><span>Phase 2 · FastAPI</span><span class="chip">1.5wk</span></a>
-      <a class="nav-level" data-target="phase3" href="#phase3"><span>Phase 3 · Phaser</span><span class="chip">2.5wk</span></a>
+<header class="site-header">
+  <div class="topbar">
+    <div class="brand-mini">ARCADE<span>GENESIS</span></div>
+    <div class="score-readout">
+      <span class="label">CLEARED</span>
+      <span class="digits" id="scoreDigits">000</span>
+      <span class="label">/ <span id="scoreTotal">000</span></span>
     </div>
-
-    <div class="nav-part">
-      <div class="nav-part-title">PART 2 — BUILD ARCADEGENESIS</div>
-      <a class="nav-level" data-target="mod1" href="#mod1"><span>Mod 1 · Component Library</span><span class="chip">2wk</span></a>
-      <a class="nav-level" data-target="mod2" href="#mod2"><span>Mod 2 · Manual Assembly</span><span class="chip">4d</span></a>
-      <a class="nav-level" data-target="mod3" href="#mod3"><span>Mod 3 · AI Planning Engine</span><span class="chip">1wk</span></a>
-      <a class="nav-level" data-target="mod4" href="#mod4"><span>Mod 4 · Compatibility Checker</span><span class="chip">4d</span></a>
-      <a class="nav-level" data-target="mod5" href="#mod5"><span>Mod 5 · Recommendation Agent</span><span class="chip">1wk</span></a>
-      <a class="nav-level" data-target="mod6" href="#mod6"><span>Mod 6 · Gameplay Assembler</span><span class="chip">4d</span></a>
-      <a class="nav-level" data-target="mod7" href="#mod7"><span>Mod 7 · Backend + Frontend</span><span class="chip">1wk</span></a>
-      <a class="nav-level" data-target="mod8" href="#mod8"><span>Mod 8 · Project Memory</span><span class="chip">4d</span></a>
-      <a class="nav-level" data-target="mod9" href="#mod9"><span>Mod 9 · Showcase + Eval</span><span class="chip">1wk</span></a>
-    </div>
-
-    <div class="nav-part">
-      <div class="nav-part-title">EXTRA LIVES</div>
-      <a class="nav-level" data-target="threads" href="#threads"><span>Ongoing Practice Threads</span></a>
+    <button class="toggle-scan active" id="scanToggle" title="Toggle CRT scanline effect">CRT: ON</button>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+  <nav class="quicknav-wrap" aria-label="Level select">
+    <div class="quicknav" id="quicknav">
+      <a class="qn-pill" data-target="phase0a" href="#phase0a"><span class="done-dot"></span>Phase 0A · Python</a>
+      <a class="qn-pill" data-target="phase0b" href="#phase0b"><span class="done-dot"></span>Phase 0B · JS</a>
+      <a class="qn-pill" data-target="phase1" href="#phase1"><span class="done-dot"></span>Phase 1 · Git</a>
+      <a class="qn-pill" data-target="phase2" href="#phase2"><span class="done-dot"></span>Phase 2 · FastAPI</a>
+      <a class="qn-pill" data-target="phase3" href="#phase3"><span class="done-dot"></span>Phase 3 · Phaser</a>
+      <span class="qn-divider"></span>
+      <a class="qn-pill" data-target="mod1" href="#mod1"><span class="done-dot"></span>Mod 1</a>
+      <a class="qn-pill" data-target="mod2" href="#mod2"><span class="done-dot"></span>Mod 2</a>
+      <a class="qn-pill" data-target="mod3" href="#mod3"><span class="done-dot"></span>Mod 3</a>
+      <a class="qn-pill" data-target="mod4" href="#mod4"><span class="done-dot"></span>Mod 4</a>
+      <a class="qn-pill" data-target="mod5" href="#mod5"><span class="done-dot"></span>Mod 5</a>
+      <a class="qn-pill" data-target="mod6" href="#mod6"><span class="done-dot"></span>Mod 6</a>
+      <a class="qn-pill" data-target="mod7" href="#mod7"><span class="done-dot"></span>Mod 7</a>
+      <a class="qn-pill" data-target="mod8" href="#mod8"><span class="done-dot"></span>Mod 8</a>
+      <a class="qn-pill" data-target="mod9" href="#mod9"><span class="done-dot"></span>Mod 9</a>
+      <span class="qn-divider"></span>
+      <a class="qn-pill" data-target="threads" href="#threads"><span class="done-dot"></span>Extra Lives</a>
     </div>
   </nav>
+</header>
 
   <main class="main" id="main">
 
@@ -493,7 +465,7 @@
       </div>
       <div class="level-body">
 
-        <article class="stage" data-search="variables data types strings numbers days 1-2">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap">
@@ -519,7 +491,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="lists tuples dictionaries sets day 3">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 2: Lists, Tuples, Dictionaries, Sets</h4><span class="stage-day">Day 3</span></div></div>
@@ -542,7 +514,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="conditionals loops day 4">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 3: Conditionals and Loops</h4><span class="stage-day">Day 4</span></div></div>
@@ -564,7 +536,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="functions day 5">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 4: Functions</h4><span class="stage-day">Day 5</span></div></div>
@@ -586,7 +558,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="practice sprint days 6-7 hackerrank codewars">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 5: Practice Sprint</h4><span class="stage-day">Days 6–7</span></div></div>
@@ -604,7 +576,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="object-oriented programming oop days 8-9">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 6: Object-Oriented Programming</h4><span class="stage-day">Days 8–9</span></div></div>
@@ -627,7 +599,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="exception handling day 10">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 7: Exception Handling</h4><span class="stage-day">Day 10</span></div></div>
@@ -648,7 +620,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="file handling day 11 json persistent">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 8: File Handling</h4><span class="stage-day">Day 11</span></div></div>
@@ -669,7 +641,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="modules imports virtual environments day 12 venv">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 9: Modules, Imports, Virtual Environments</h4><span class="stage-day">Day 12</span></div></div>
@@ -691,7 +663,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="decorators context managers day 13">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 10: Decorators and Context Managers</h4><span class="stage-day">Day 13</span></div></div>
@@ -712,7 +684,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="checkpoint day 14 coyot ai python backend">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Checkpoint</h4><span class="stage-day">Day 14</span></div></div>
@@ -738,7 +710,7 @@
       </div>
       <div class="level-body">
 
-        <article class="stage" data-search="variables data types operators days 1-2 javascript">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 1: Variables, Data Types, Operators</h4><span class="stage-day">Days 1–2</span></div></div>
@@ -760,7 +732,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="functions day 3 javascript camelcase">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 2: Functions</h4><span class="stage-day">Day 3</span></div></div>
@@ -781,7 +753,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="arrays loops days 4-5 map filter reduce">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 3: Arrays and Loops</h4><span class="stage-day">Days 4–5</span></div></div>
@@ -802,7 +774,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="objects classes this days 6-7">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 4: Objects, Classes, <code>this</code></h4><span class="stage-day">Days 6–7</span></div></div>
@@ -824,7 +796,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="async javascript days 8-10 promises fetch">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 5: Async JavaScript</h4><span class="stage-day">Days 8–10</span></div></div>
@@ -846,7 +818,7 @@
           </div>
         </article>
 
-        <article class="stage" data-search="practice checkpoint days 11-13 exercism voicefill">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Topic 6: Practice + Checkpoint</h4><span class="stage-day">Days 11–13</span></div></div>
@@ -877,7 +849,7 @@
         <span class="level-time">4 days</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="git tooling branching merge pull request vscode ruff black eslint prettier">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Git fundamentals &amp; editor setup</h4></div></div>
@@ -915,7 +887,7 @@
         <span class="level-time">1.5 weeks</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="fastapi rest endpoints sqlite sqlalchemy orm notes api crud">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>REST endpoints, SQLite, and the ORM layer</h4></div></div>
@@ -960,7 +932,7 @@
         <span class="level-time">2.5 weeks</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="phaser game engine sprites arcade physics colliders input scenes">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Scenes, sprites, physics &amp; input</h4></div></div>
@@ -1007,7 +979,7 @@
         <span class="level-time">2 weeks</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="component library grid arcade top-down shooter interface metadata">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Design, build order &amp; metadata</h4></div></div>
@@ -1065,7 +1037,7 @@
         <span class="level-time">4 days</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="manual assembly proof snake top-down shooter conflicts metadata">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Two hand-assembled games</h4></div></div>
@@ -1094,7 +1066,7 @@
         <span class="level-time">1 week</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="ai game planning engine llm json schema groq anthropic prompt engineering">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Structured JSON plan from a natural-language prompt</h4></div></div>
@@ -1135,7 +1107,7 @@
         <span class="level-time">4 days</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="compatibility checker pure function conflicts pytest unittest">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Validating a component-ID list against metadata</h4></div></div>
@@ -1170,7 +1142,7 @@
         <span class="level-time">1 week</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="recommendation agent alternatives substitution llm explanation">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Lookup substitution, then a plain-language layer</h4></div></div>
@@ -1198,7 +1170,7 @@
         <span class="level-time">4 days</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="gameplay assembler validated plan phaser scene config">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Automating what you proved by hand</h4></div></div>
@@ -1225,7 +1197,7 @@
         <span class="level-time">1 week</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="fastapi backend react frontend generate-game endpoint cors phaser canvas">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Wrapping Modules 3–6 behind one endpoint</h4></div></div>
@@ -1259,7 +1231,7 @@
         <span class="level-time">4 days</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="project memory sqlite sessions messages refine plan">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Sessions &amp; messages so "make it faster" refines, not restarts</h4></div></div>
@@ -1286,7 +1258,7 @@
         <span class="level-time">1 week</span>
       </div>
       <div class="level-body">
-        <article class="stage" data-search="showcase games evaluation readme architecture diagram excalidraw metrics">
+        <article class="stage">
           <div class="stage-header">
             <div class="check"></div>
             <div class="stage-title-wrap"><div class="stage-title-row"><h4>Polish, measure, document</h4></div></div>
@@ -1309,7 +1281,7 @@
     <section class="threads" id="threads">
       <div class="part-divider" style="margin-left:0; margin-right:0;"><span class="part-num">EXTRA LIVES</span><h2>Ongoing Practice Threads</h2></div>
       <p class="part-intro" style="margin-left:0; margin-right:0;">Run alongside every phase, not after.</p>
-      <div class="thread-grid" data-search="ongoing practice threads dsa leetcode english interview flashcards anki">
+      <div class="thread-grid">
         <div class="thread-card">
           <h5>APTITUDE / DSA</h5>
           <p><a href="https://leetcode.com/" target="_blank" rel="noopener">LeetCode Easy tier</a>, 3–4/week, explain your solution out loud in English as if to an interviewer.</p>
@@ -1334,10 +1306,7 @@
       <div style="margin-top:8px;">progress is tracked for this session only — refreshing the page resets cleared stages</div>
     </div>
 
-    <div class="no-results" id="noResults">/// NO STAGES MATCH "<span id="noResultsTerm"></span>" — TRY ANOTHER SEARCH ///</div>
-
   </main>
-</div>
 
 <script>
 (function(){
@@ -1345,7 +1314,7 @@
   const scoreDigits = document.getElementById('scoreDigits');
   const scoreTotal = document.getElementById('scoreTotal');
   const progressFill = document.getElementById('progressFill');
-  const navLevels = Array.from(document.querySelectorAll('.nav-level'));
+  const navLevels = Array.from(document.querySelectorAll('.qn-pill'));
   const levelSections = navLevels.map(n => document.getElementById(n.dataset.target)).filter(Boolean);
 
   scoreTotal.textContent = String(stages.length).padStart(3,'0');
@@ -1407,65 +1376,6 @@
 
   updateProgress();
 
-  // search / filter
-  const searchInput = document.getElementById('searchInput');
-  const noResults = document.getElementById('noResults');
-  const noResultsTerm = document.getElementById('noResultsTerm');
-  const levels = Array.from(document.querySelectorAll('.level, .threads'));
-
-  function runSearch(){
-    const term = searchInput.value.trim().toLowerCase();
-    document.body.classList.toggle('filtering', term.length > 0);
-
-    if(term.length === 0){
-      stages.forEach(s => s.style.display = '');
-      document.querySelectorAll('.thread-card').forEach(c => c.style.display = '');
-      levels.forEach(l => l.style.display = '');
-      noResults.classList.remove('show');
-      return;
-    }
-
-    let anyVisible = false;
-
-    levels.forEach(level => {
-      let levelHasMatch = false;
-      const localStages = level.querySelectorAll('.stage');
-      localStages.forEach(stage => {
-        const haystack = (stage.dataset.search || '') + ' ' + stage.textContent.toLowerCase();
-        const match = haystack.toLowerCase().includes(term);
-        stage.style.display = match ? '' : 'none';
-        if(match){ levelHasMatch = true; stage.classList.remove('collapsed'); }
-      });
-      const localCards = level.querySelectorAll('.thread-card');
-      if(localCards.length){
-        let cardMatch = false;
-        localCards.forEach(card => {
-          const match = card.textContent.toLowerCase().includes(term);
-          card.style.display = match ? '' : 'none';
-          if(match) cardMatch = true;
-        });
-        if(cardMatch) levelHasMatch = true;
-      }
-      // also match level title itself
-      const headerText = level.querySelector('.level-header, h2')?.textContent.toLowerCase() || '';
-      if(headerText.includes(term)) levelHasMatch = true;
-
-      level.style.display = levelHasMatch ? '' : 'none';
-      if(levelHasMatch) anyVisible = true;
-    });
-
-    noResultsTerm.textContent = searchInput.value.trim();
-    noResults.classList.toggle('show', !anyVisible);
-  }
-
-  searchInput.addEventListener('input', runSearch);
-  document.addEventListener('keydown', (e) => {
-    if(e.key === '/' && document.activeElement !== searchInput){
-      e.preventDefault();
-      searchInput.focus();
-    }
-  });
-
   // sidebar active state via scroll
   const targets = navLevels.map(n => document.getElementById(n.dataset.target)).filter(Boolean);
   const io = new IntersectionObserver((entries) => {
@@ -1481,13 +1391,9 @@
   }, { rootMargin: '-15% 0px -70% 0px', threshold: 0 });
   targets.forEach(t => io.observe(t));
 
-  // mobile nav
-  const menuBtn = document.getElementById('menuBtn');
-  menuBtn.addEventListener('click', () => {
-    document.body.classList.toggle('nav-open');
-  });
+  // quicknav: keep the active pill scrolled into view as the user navigates
   navLevels.forEach(n => n.addEventListener('click', () => {
-    document.body.classList.remove('nav-open');
+    setTimeout(() => n.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' }), 50);
   }));
 
   // CRT scanline toggle
